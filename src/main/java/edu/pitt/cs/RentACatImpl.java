@@ -18,12 +18,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		Cat cat = getCat(id);
-        if (cat != null && cat.getRented()) {
-            cat.returnCat();
-            return true;
-        }
-        return false;
+		// TODO: Fill in
+		if(getCat(id) != null){
+			if(getCat(id).getRented() == true){
+				getCat(id).returnCat();
+				System.out.println("Welcome back, " + getCat(id).getName() + "!");
+				return true;
+			}
+			System.out.println(getCat(id).getName() + " is already here!");
+		}
+		return false;
 	}
 
 	/**
@@ -37,12 +41,18 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		Cat cat = getCat(id);
-        if (cat != null && !cat.getRented()) {
-            cat.rentCat();
-            return true;
-        }
-        return false;
+		// TODO: Fill in
+		Cat c = getCat(id);
+		if(c == null) return false;
+		else{
+			if(c.getRented() == false){
+				c.rentCat();
+				System.out.println(c.getName()+" has been rented."); 
+				return true;
+			}
+			System.out.println("Sorry, " + c.getName()+" is not here!");
+		}
+		return false;
 	}
 
 	/**
@@ -56,12 +66,12 @@ public class RentACatImpl implements RentACat {
 
 	public boolean renameCat(int id, String name) {
 		// TODO: Fill in
-		Cat cat = getCat(id);
-        if (cat != null) {
-            cat.renameCat(name);
-            return true;
-        }
-        return false;
+		Cat c = getCat(id);
+		if(c == null) return false;
+		else{
+			c.renameCat(name);
+			return true;
+		}
 	}
 
 	/**
@@ -76,13 +86,12 @@ public class RentACatImpl implements RentACat {
 
 	public String listCats() {
 		// TODO: Fill in
-		StringBuilder sb = new StringBuilder();
-		for (Cat cat : cats) {
-			if (!cat.getRented()) { 
-				sb.append(cat.toString()).append("\n"); 
-			}
+		String ret = "";
+		System.err.println(cats.isEmpty());
+		for(int i = 0; i < cats.size(); i++){
+			ret = ret + cats.get(i).toString() + "\n";
 		}
-		return sb.toString(); 
+		return ret;
 	}
 
 	/**
@@ -179,7 +188,7 @@ public class RentACatImpl implements RentACat {
 						System.out.print("Rename which cat? > ");
 						try {
 							int catIdToRename = sc.nextInt();
-							sc.nextLine(); 
+							sc.nextLine(); // to flush the previous line
 							System.out.print("What is the new name? > ");
 							String newName = sc.nextLine();
 							rc.renameCat(catIdToRename, newName);
@@ -202,6 +211,7 @@ public class RentACatImpl implements RentACat {
 				System.err.println("3. Return a cat from a customer");
 				System.err.println("4. Rename a cat");
 				System.err.println("5. Quit");
+				// Clear out the non-int in the scanner
 				sc.next();
 			}
 		}
